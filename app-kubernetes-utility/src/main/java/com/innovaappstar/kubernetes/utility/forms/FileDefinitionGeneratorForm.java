@@ -91,10 +91,12 @@ public class FileDefinitionGeneratorForm extends JFrame {
 
 		btnAllTemplateOutputDirectoryChoose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String path = FileUtils.choosePath(FileDefinitionGeneratorForm.this);
-				etAllTemplatesOutputDirectory.setText(path);
-				String message = FileUtils.getMessage("hola mundo");
-				System.out.println(message);
+//				String path = FileUtils.choosePath(FileDefinitionGeneratorForm.this);
+//				etAllTemplatesOutputDirectory.setText(path);
+//				String message = FileUtils.getMessage("hola mundo");
+//				System.out.println(message);
+
+				FileUtils.printKubernetes();
 			}
 		});
 	}
