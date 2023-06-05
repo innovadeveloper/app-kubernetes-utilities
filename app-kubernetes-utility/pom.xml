@@ -10,6 +10,12 @@
     <name>Archetype - app-kubernetes-utility</name>
     <url>http://maven.apache.org</url>
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.fifesoft/rsyntaxtextarea -->
+        <dependency>
+            <groupId>com.fifesoft</groupId>
+            <artifactId>rsyntaxtextarea</artifactId>
+            <version>3.0.8</version>
+        </dependency>
         <dependency>
             <groupId>com.innovaappstar.kubernetes</groupId>
             <artifactId>groovy-utility</artifactId>

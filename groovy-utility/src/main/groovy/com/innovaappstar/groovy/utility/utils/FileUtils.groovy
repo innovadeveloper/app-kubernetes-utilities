@@ -1,16 +1,16 @@
 package com.innovaappstar.groovy.utility.utils
 
-import javax.swing.JFileChooser
-import java.awt.Component
-import java.nio.file.Files
-import java.nio.file.Paths
-
 import io.kubernetes.client.ApiClient
 import io.kubernetes.client.ApiException
 import io.kubernetes.client.Configuration
 import io.kubernetes.client.apis.CoreV1Api
 import io.kubernetes.client.models.V1Pod
 import io.kubernetes.client.models.V1PodList
+
+import javax.swing.JFileChooser
+import java.awt.Component
+import java.nio.file.Files
+import java.nio.file.Paths
 import io.kubernetes.client.util.Config
 import io.kubernetes.client.util.KubeConfig
 import io.kubernetes.client.util.authenticators.GCPAuthenticator
@@ -55,7 +55,6 @@ class FileUtils {
     }
 
     static def printKubernetes(){
-
         KubeConfig.registerAuthenticator(new GCPAuthenticator());
         ApiClient apiClient = Config.defaultClient();
 //    apiClient.setUsername("admin");
