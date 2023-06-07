@@ -4,7 +4,9 @@
 
 package com.innovaappstar.kubernetes.utility.forms;
 
+import com.innovaappstar.kubernetes.utility.business.KubernetesApiFacade;
 import com.innovaappstar.kubernetes.utility.business.ProcessorMediator;
+import com.innovaappstar.kubernetes.utility.constants.FileResourcesEnum;
 import com.innovaappstar.kubernetes.utility.constants.FormPropertyEnum;
 import com.innovaappstar.kubernetes.utility.models.FormProperty;
 
@@ -16,22 +18,24 @@ import javax.swing.GroupLayout;
  * @author kennybaltazaralanoca
  */
 public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMediator {
+    KubernetesApiFacade kubernetesApiFacade = new KubernetesApiFacade();
+
     public FileDefinitionGeneratorForm() {
         initComponents();
         tbPanelForm.add("PV" ,
                 new ViewerForm(this, FormProperty.builder()
-                        .resourcePath("some/path")
-                        .formDescription("some description")
+                        .resourcePath(FileResourcesEnum.PV_DEFINITION.getPath())
+                        .formDescription("some description pv")
                         .formPropertyEnum(FormPropertyEnum.PV)
-                        .build())
+                        .build(), kubernetesApiFacade)
         );
 
         tbPanelForm.add("PVC" ,
                 new ViewerForm(this, FormProperty.builder()
-                        .resourcePath("some/path")
+                        .resourcePath(FileResourcesEnum.PVC_DEFINITION.getPath())
                         .formDescription("some description of pvc")
                         .formPropertyEnum(FormPropertyEnum.PVC)
-                        .build())
+                        .build(), kubernetesApiFacade)
         );
     }
 

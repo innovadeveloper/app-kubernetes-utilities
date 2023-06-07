@@ -21,6 +21,7 @@ import io.kubernetes.client.util.authenticators.GCPAuthenticator
 
 class KubernetesController {
     ApiClient apiClient
+
     private KubernetesController() {
         KubeConfig.registerAuthenticator(new GCPAuthenticator())
         apiClient = Config.defaultClient()
@@ -35,69 +36,6 @@ class KubernetesController {
             new KubernetesController()
         }
     }
-
-
-//  ----------------------------
-
-//    def startShell() {
-//        def processBuilder = new ProcessBuilder("zsh", "-i")
-//        Process process = processBuilder.start()
-//
-//        // Obtener el flujo de entrada de la shell
-//        InputStream inputStream = process.getInputStream()
-//
-//        // Obtener el flujo de salida de la shell
-//        OutputStream outputStream = process.getOutputStream()
-//
-//        // Obtener el flujo de error de la shell
-//        InputStream errorStream = process.getErrorStream()
-//
-//        // Crear un lector para leer la salida de la shell
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))
-//
-//        // Crear un escritor para enviar comandos a la shell
-//        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream))
-//
-//        // Crear un hilo para leer la salida de la shell
-//        Thread readerThread = new Thread({
-//            String line
-//            while ((line = reader.readLine()) != null) {
-//                println("Respuesta general: ${line}")
-//                try {
-//                    def readerObj = reader
-//                    def currentValue= reader.readLine()
-//                    println(currentValue)
-//                }catch (Exception e){
-//                    e.printStackTrace()
-//                }
-//            }
-//            reader.close()  // Cerrar el flujo de lectura
-//        })
-//
-//        readerThread.start()
-//
-//        sendCommand("kubectl apply -f \$HOME/Downloads/custom_pv.yaml", writer)
-//
-////        // Esperar a que el hilo de lectura de la salida de la shell termine
-//        readerThread.join()
-//
-//        // Cerrar los flujos y esperar a que finalice la shell
-//        inputStream.close()
-//        outputStream.close()
-//        errorStream.close()
-//        process.waitFor()
-//    }
-//
-//    def sendCommand(command, writer) {
-//        try {
-//            // Enviar el comando a la shell
-//            writer.write(command + "\n")
-//            writer.flush()
-//        } catch (IOException e) {
-//            println("Error al enviar el comando: ${e.getMessage()}")
-//        }
-//    }
-
 
     def startShell(command) {
 //        def command = "kubectl apply -f \$HOME/Downloads/custom_pv.yaml"
@@ -161,25 +99,6 @@ class KubernetesController {
         }catch (Exception e){
             e.printStackTrace()
         }
-//        try {
-//            println(System.getProperty("user.name"))
-//
-//            def processOne = "kubectl -h".execute()
-//            processOne.waitFor()
-//            def responseCommandOne = processOne.text
-//
-//            def processTwo = "sudo kubectl get pods".execute()
-//            processTwo.waitFor()
-//            def responseCommandTwo = processTwo.text
-//
-//            def processThree = "kubectl apply -f /Users/kennybaltazaralanoca/Downloads/custom_pv.yaml".execute()
-//            processThree.waitFor()
-//            def responseCommandThree = processThree.text
-//
-//            println("___")
-//        } catch (Exception e) {
-//            e.printStackTrace()
-//        }
     }
 
     def listPods() {
@@ -195,33 +114,29 @@ class KubernetesController {
             return null
         }
     }
-    def listAllPV() {
+
+    def listResources(listFunction) {
         try {
-            CoreV1Api api = new CoreV1Api();
-            V1PersistentVolumeList list = api.listPersistentVolume(null, null, null, null, null, null, null,
-                    null, null)
-            return list.items.collect { pod -> return new String[]{pod.metadata.namespace != null? pod.metadata.namespace : "" , pod.metadata.name} }
+            def list = listFunction.call()
+            return list.items.collect { item ->
+                def namespace = item.metadata.namespace ?: ""
+                def name = item.metadata.name
+                [name, namespace]
+            }
         } catch (ApiException e) {
-            System.out.println(e);
-            System.out.println(e.getCode());
-            System.out.println(e.getResponseBody());
+            println(e)
+            println(e.getCode())
+            println(e.getResponseBody())
             return null
         }
     }
 
+    List<ArrayList<String>> listAllPV() {
+        return listResources { new CoreV1Api().listPersistentVolume(null, null, null, null, null, null, null, null, null) }
+    }
 
-    def listAllPVC() {
-        try {
-            CoreV1Api api = new CoreV1Api();
-            V1PersistentVolumeClaimList list = api.listPersistentVolumeClaimForAllNamespaces(null, null, null, null, null, null, null,
-                    null, null)
-            return list.items.collect { pod -> return new String[]{pod.metadata.namespace != null? pod.metadata.namespace : "", pod.metadata.name} }
-        } catch (ApiException e) {
-            System.out.println(e);
-            System.out.println(e.getCode());
-            System.out.println(e.getResponseBody());
-            return null
-        }
+    List<ArrayList<String>> listAllPVC() {
+        return listResources { new CoreV1Api().listPersistentVolumeClaimForAllNamespaces(null, null, null, null, null, null, null, null, null) }
     }
 
     String executeDefinitionFile(String path){

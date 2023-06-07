@@ -57,18 +57,18 @@ public class FileDefinitionGeneratorFormBK extends JFrame {
 
 
 	private void runAllData(boolean isPVList){
-		persistentVolumeTableModel.clear();
-		if(isPVList){
-			((List<String[]>)new KubernetesController.Builder().build().listAllPV()).forEach((item )->{
-				persistentVolumeTableModel.addRow(item);
-			});
-		}else{
-			persistentVolumeTableModel.clear();
-			((List<String[]>)new KubernetesController.Builder().build().listAllPVC()).forEach((item )->{
-				persistentVolumeTableModel.addRow(item);
-			});
-		}
-		applyFilter();
+//		persistentVolumeTableModel.clear();
+//		if(isPVList){
+//			(new KubernetesController.Builder().build().listAllPV()).forEach((item )->{
+//				persistentVolumeTableModel.addRow(item);
+//			});
+//		}else{
+//			persistentVolumeTableModel.clear();
+//			(new KubernetesController.Builder().build().listAllPVC()).forEach((item )->{
+//				persistentVolumeTableModel.addRow(item);
+//			});
+//		}
+//		applyFilter();
 	}
 
 	/**

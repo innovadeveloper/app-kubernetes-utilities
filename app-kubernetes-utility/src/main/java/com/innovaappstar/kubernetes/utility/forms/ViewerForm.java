@@ -4,14 +4,18 @@
 
 package com.innovaappstar.kubernetes.utility.forms;
 
+import com.innovaappstar.kubernetes.utility.business.KubernetesApiFacade;
 import com.innovaappstar.kubernetes.utility.business.ProcessorMediator;
 import com.innovaappstar.kubernetes.utility.business.ViewForm;
 import com.innovaappstar.kubernetes.utility.constants.FormPropertyEnum;
 import com.innovaappstar.kubernetes.utility.models.FormProperty;
+import com.innovaappstar.kubernetes.utility.models.PersistentVolumeTableModel;
 
 import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.border.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.*;
 
 import lombok.Builder;
@@ -30,10 +34,15 @@ public class ViewerForm extends JPanel implements ViewForm {
     private ProcessorMediator processorMediator;
     @Singular
     private FormProperty formProperty;
+    @Singular
+    private KubernetesApiFacade kubernetesApiFacade;
+    PersistentVolumeTableModel persistentVolumeTableModel;
 
-    public ViewerForm(ProcessorMediator processorMediator, FormProperty formProperty) {
+    public ViewerForm(ProcessorMediator processorMediator, FormProperty formProperty, KubernetesApiFacade kubernetesApiFacade) {
         this.processorMediator = processorMediator;
         this.formProperty = formProperty;
+        this.kubernetesApiFacade = kubernetesApiFacade;
+        this.persistentVolumeTableModel = new PersistentVolumeTableModel();
         initComponents();
         onStart();
     }
@@ -52,12 +61,12 @@ public class ViewerForm extends JPanel implements ViewForm {
         tbItems = new JTable();
 
         //======== this ========
-        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing.
-        border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDes\u0069gner \u0045valua\u0074ion" , javax. swing .border . TitledBorder. CENTER
-        ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "D\u0069alog", java .awt . Font
-        . BOLD ,12 ) ,java . awt. Color .red ) , getBorder () ) );  addPropertyChangeListener(
-        new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062order"
-        .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder
+        ( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border. TitledBorder. CENTER, javax. swing. border
+        . TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt
+        . Color. red) , getBorder( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void
+        propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062ord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( )
+        ; }} );
 
         //======== panel1 ========
         {
@@ -190,9 +199,50 @@ public class ViewerForm extends JPanel implements ViewForm {
 
     @Override
     public void onStart() {
+        ButtonGroup buttonGroup1 = new ButtonGroup();
+        buttonGroup1.add(rbFilterName);
+        buttonGroup1.add(rbFilterNamespace);
+        rbFilterName.setSelected(true);
+
+        tbItems.setModel(persistentVolumeTableModel);
         tvDescription.setText(this.formProperty.getFormDescription());
         btnOpenEditor.addActionListener((ev) -> {
             this.processorMediator.openEditor(this.formProperty.getResourcePath());
         });
+        persistentVolumeTableModel.clear();
+        kubernetesApiFacade.getKubernetesElements(this.formProperty.getFormPropertyEnum()).forEach((item )->{
+            persistentVolumeTableModel.addRow(new String[]{item.get(0), item.get(1)});
+            onApplyFilter();
+        });
+
+        tbItems.getColumnModel().getColumn(0).setHeaderValue("name");
+        tbItems.getColumnModel().getColumn(1).setHeaderValue("namespace");
+        tbItems.repaint();
+
+        etFilterInput.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                onApplyFilter();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                onApplyFilter();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                onApplyFilter();
+            }
+        });
+        onApplyFilter();
     }
+
+    @Override
+    public void onApplyFilter() {
+        String filterText = etFilterInput.getText();
+        persistentVolumeTableModel.filterData(filterText, rbFilterName.isSelected());
+    }
+
+
 }
