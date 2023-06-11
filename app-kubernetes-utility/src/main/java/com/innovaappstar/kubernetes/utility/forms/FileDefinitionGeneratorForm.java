@@ -5,9 +5,11 @@
 package com.innovaappstar.kubernetes.utility.forms;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.innovaappstar.groovy.utility.business.kubectl.KubernetesController;
 import com.innovaappstar.kubernetes.utility.business.ProcessorMediator;
 import com.innovaappstar.kubernetes.utility.business.impl.ClusterRoleBindingExecutor;
 import com.innovaappstar.kubernetes.utility.business.impl.ClusterRoleExecutor;
+import com.innovaappstar.kubernetes.utility.business.impl.DefaultExecutor;
 import com.innovaappstar.kubernetes.utility.business.impl.DeploymentsExecutor;
 import com.innovaappstar.kubernetes.utility.business.impl.PersistentVolumeClaimExecutor;
 import com.innovaappstar.kubernetes.utility.business.impl.PersistentVolumeExecutor;
@@ -15,8 +17,14 @@ import com.innovaappstar.kubernetes.utility.business.impl.PodsExecutor;
 import com.innovaappstar.kubernetes.utility.business.impl.SecretsExecutor;
 import com.innovaappstar.kubernetes.utility.constants.FileResourcesEnum;
 import com.innovaappstar.kubernetes.utility.models.FormProperty;
+import com.innovaappstar.kubernetes.utility.utils.FormUtils;
+
+import org.codehaus.groovy.util.StringUtil;
 
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.*;
 import javax.swing.GroupLayout;
 
@@ -26,13 +34,17 @@ import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.ConfigBuilder;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import lombok.SneakyThrows;
+
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
+import static groovy.console.ui.text.FindReplaceUtility.dispose;
 
 /**
  * @author kennybaltazaralanoca
  */
 public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMediator {
 
-    public FileDefinitionGeneratorForm() {
+    public FileDefinitionGeneratorForm(JFrame frame) {
         initComponents();
         tbPanelForm.add("PV" ,
                 new ViewerForm(this, FormProperty.builder()
@@ -90,7 +102,11 @@ public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMedi
                         .fileResourceEnum(FileResourcesEnum.SECRETS_DEFINITION)
                         .build(), new SecretsExecutor())
         );
-
+//
+        tbPanelForm.add("ANOTHER_SCRIPTS" ,
+                new AnotherScriptsForm(this)
+        );
+        FormUtils.addCloseDialogBeforeFinish(FileDefinitionGeneratorForm.this);
     }
 
     private void initComponents() {
@@ -129,52 +145,56 @@ public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMedi
 //        test();
 
         JFrame frame = new JFrame("File Definition Generator Form v1");
-        frame.setContentPane(new FileDefinitionGeneratorForm());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(new FileDefinitionGeneratorForm(frame));
         frame.pack();
         frame.setVisible(true);
+//        FormUtils.addCloseDialogBeforeFinish(frame);
+
     }
 
-    private static void test(){
-        String url = "https://192.168.64.3:16443";
-        // Configurar la autenticación
-        Config config = new ConfigBuilder()
-                .withMasterUrl(url)
-                .withTrustCerts(true)  // Configurar si se debe confiar en los certificados del servidor
-//                .withClientCertFile("/Users/kennybaltazaralanoca/Files/certificates/gaby.crt")
-//                .withClientKeyFile("/Users/kennybaltazaralanoca/Files/certificates/gaby.key")
-
-//                .withOauthToken("cnpFNFVlUTRESjNleTg4M0ZwYlFOSlQwczUrSVJXK1ZBejl6NWRhZXRaST0K")
-                .withOauthToken("Eijqt7R95LzSRW5udebkQUNhiYZ5+WYE8DPbQX/Epsk=")
-//                .withOauthToken("<YOUR API KEY>")
-                .build();
-
-        // Crear el cliente de Kubernetes
-        try (KubernetesClient client = new DefaultKubernetesClient(config)) {
-            // Obtener la lista de Pods
-            PodList podList = client.pods().inAnyNamespace().list();
-
-            // Iterar sobre los Pods y mostrar información
-            for (Pod pod : podList.getItems()) {
-                System.out.println("Name: " + pod.getMetadata().getName());
-                System.out.println("Namespace: " + pod.getMetadata().getNamespace());
-                System.out.println("Status: " + pod.getStatus().getPhase());
-                System.out.println("----------------------");
-            }
-        }
-    }
+//    private static void test(){
+//        String url = "https://192.168.64.3:16443";
+//        // Configurar la autenticación
+//        Config config = new ConfigBuilder()
+//                .withMasterUrl(url)
+//                .withTrustCerts(true)  // Configurar si se debe confiar en los certificados del servidor
+////                .withClientCertFile("/Users/kennybaltazaralanoca/Files/certificates/gaby.crt")
+////                .withClientKeyFile("/Users/kennybaltazaralanoca/Files/certificates/gaby.key")
+//
+////                .withOauthToken("cnpFNFVlUTRESjNleTg4M0ZwYlFOSlQwczUrSVJXK1ZBejl6NWRhZXRaST0K")
+//                .withOauthToken("Eijqt7R95LzSRW5udebkQUNhiYZ5+WYE8DPbQX/Epsk=")
+////                .withOauthToken("<YOUR API KEY>")
+//                .build();
+//
+//        // Crear el cliente de Kubernetes
+//        try (KubernetesClient client = new DefaultKubernetesClient(config)) {
+//            // Obtener la lista de Pods
+//            PodList podList = client.pods().inAnyNamespace().list();
+//
+//            // Iterar sobre los Pods y mostrar información
+//            for (Pod pod : podList.getItems()) {
+//                System.out.println("Name: " + pod.getMetadata().getName());
+//                System.out.println("Namespace: " + pod.getMetadata().getNamespace());
+//                System.out.println("Status: " + pod.getStatus().getPhase());
+//                System.out.println("----------------------");
+//            }
+//        }
+//    }
 
     @Override
     public void saveAndApply(String path) {
-
+        String response = new KubernetesController.Builder().build().executeDefinitionFile(path);
+        JOptionPane.showMessageDialog(this, "Archivo guardado en " + path + " con ejecución " + response);
     }
 
     @Override
     public void save(String path) {
-
+        JOptionPane.showMessageDialog(this, "Archivo guardado en " + path);
     }
 
     @Override
     public void openEditor(String resource) {
-
+        new YamlEditor(resource, this).setVisible(true);
     }
 }

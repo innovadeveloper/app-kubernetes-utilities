@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.javaparser.utils.Pair;
 import com.innovaappstar.kubernetes.utility.business.Executor;
 import com.innovaappstar.kubernetes.utility.business.KubernetesApiFacade;
+import com.innovaappstar.kubernetes.utility.utils.JsonUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,8 +24,8 @@ public class DeploymentsExecutor extends BaseExecutor implements Executor {
     }
 
     // todo : CONSTRUIR CONSTANTE DE NODE_PATH (LISTO)
-    // todo : Construir COMBOBOX QUE LISTE LOS TIPOS
-    // TODO : REFACTORIZAR Y MOVER EL UTILS A UN PACKAGE UTILS
+    // todo : Construir COMBOBOX QUE LISTE LOS TIPOS (LIST)
+    // TODO : REFACTORIZAR Y MOVER EL UTILS A UN PACKAGE UTILS (Listo)
     // TODO : IMPLEMENTAR EVENTOS DE OPEN EDITOR
     // TODO : MODIFICAR LA UI PARA Q NO SALGA MODO EVALUACION  (OMITOR)
 }

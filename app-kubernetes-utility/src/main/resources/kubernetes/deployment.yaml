@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: <YOUR-DEPLOYMENT-NAME> # my-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: <YOUR-DEPLOYMENT-SELECTOR-NAME> # my-app   # Este selector garantizará al Deployment tener el control de los PODs q tengan el mismo nombre de etiqueta.
+  template:
+    metadata:
+      labels:
+        app: <YOUR-DEPLOYMENT-SELECTOR-NAME> # my-app     # identificador de los PODs
+    spec:
+      volumes:
+        - name: <YOUR-VOLUME-NAME> # my-volume   # nombre de volumen q se asociará al PVC y se compartirá a los contenedores q lo invoquen
+          persistentVolumeClaim:
+            claimName: <YOUR-PVC-NAME> # my-pvc   # PVC previamente ya creado
+      containers:
+        - name: <YOUR-CONTAINER-NAME> # my-container
+          image: <YOUR-IMAGE-NAME FROM SOME REGISTRY> # my-image   # imagen alojada en el registry o en alguno de los POD's q se encuentre en ejecución.
+#          imagePullPolicy: Always # solo para desarrollo lo mantenemos..
+          ports:
+            - containerPort: <YOUR-CONTAINER PORT> # my-port
+#            - containerPort: <YOUR-ANOTHER-CONTAINER PORT>
+          volumeMounts:
+            - name: <YOUR-VOLUME-NAME> # my-volume   # nombre de volumen q se definió en el objeto "spec"
+              mountPath: /data/
+      imagePullSecrets: # referencia los secretos que actuarán para conectarse a los registrys
+        - name: dev-gitlab-registry-secret

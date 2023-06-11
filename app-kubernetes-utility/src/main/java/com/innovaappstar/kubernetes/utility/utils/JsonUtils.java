@@ -1,4 +1,4 @@
-package com.innovaappstar.kubernetes.utility.business.impl;
+package com.innovaappstar.kubernetes.utility.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -9,9 +9,7 @@ import com.innovaappstar.kubernetes.utility.business.KubernetesApiFacade;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import io.fabric8.kubernetes.api.model.apps.Deployment;
 import io.fabric8.kubernetes.api.model.apps.DeploymentList;
 import lombok.SneakyThrows;
 
@@ -132,6 +130,15 @@ public class JsonUtils {
         }
 
         return mergedList;
+    }
+
+    public static int indexOf(String[] array, String valorBuscado) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i].equals(valorBuscado)) {
+                return i;
+            }
+        }
+        return -1; // Valor de retorno si no se encuentra el elemento
     }
 
     public static String getLastWordAfterLastDot(String input) {

@@ -9,21 +9,16 @@ new FormModel {
 		} ) {
 			name: "this"
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq {space :::p, par l {comp etFilterInput::::603:x, seq {comp rbFilterName:::p:151:p, space u:::p, comp rbFilterNamespace:::p:176:p, space :0:264:x}}, space :::p}}"
-				"$verticalGroup": "par l {seq l {space :::p, comp etFilterInput:::p::p, space s:::p, par b {comp rbFilterNamespace::b:p::p, comp rbFilterName::b:p::p}, space ::26:x}}"
+				"$horizontalGroup": "par l {seq {space :::p, par l {comp etFilterInput::::603:x, comp cbFilter::l::603:x}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp etFilterInput:::p::p, space s:::p, comp cbFilter:::p::p, space ::16:x}}"
 			} ) {
 				name: "panel1"
 				"border": new javax.swing.border.TitledBorder( "Search" )
 				add( new FormComponent( "javax.swing.JTextField" ) {
 					name: "etFilterInput"
 				} )
-				add( new FormComponent( "javax.swing.JRadioButton" ) {
-					name: "rbFilterName"
-					"text": "name"
-				} )
-				add( new FormComponent( "javax.swing.JRadioButton" ) {
-					name: "rbFilterNamespace"
-					"text": "namespace"
+				add( new FormComponent( "javax.swing.JComboBox" ) {
+					name: "cbFilter"
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {

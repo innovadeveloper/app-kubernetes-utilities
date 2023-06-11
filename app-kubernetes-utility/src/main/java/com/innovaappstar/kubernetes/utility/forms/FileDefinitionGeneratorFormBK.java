@@ -180,13 +180,13 @@ public class FileDefinitionGeneratorFormBK extends JFrame {
 			else if(rbCreatePVC.isSelected())
 				definitionPath = FileResourcesEnum.PVC_DEFINITION.getPath();
 
-			new YamlEditor(definitionPath, (path, isExecute) -> {
-				String response = "";
-				if(isExecute)
-					response = new KubernetesController.Builder().build().executeDefinitionFile(path);
-				JOptionPane.showMessageDialog(this, "Archivo recibido " + path + " con ejecución " + isExecute + " response " + response);
-				runAllData(rbCreatePV.isSelected());
-			}).setVisible(true);
+//			new YamlEditor(definitionPath, (path, isExecute) -> {
+//				String response = "";
+//				if(isExecute)
+//					response = new KubernetesController.Builder().build().executeDefinitionFile(path);
+//				JOptionPane.showMessageDialog(this, "Archivo recibido " + path + " con ejecución " + isExecute + " response " + response);
+//				runAllData(rbCreatePV.isSelected());
+//			}).setVisible(true);
 		});
 
 
@@ -226,7 +226,7 @@ public class FileDefinitionGeneratorFormBK extends JFrame {
 
 	private void applyFilter() {
 		String filterText = etArgFilter.getText();
-		persistentVolumeTableModel.filterData(filterText, rbFilterByNamespace.isSelected());
+//		persistentVolumeTableModel.filterData(filterText, rbFilterByNamespace.isSelected());
 	}
 
 	private void init(){

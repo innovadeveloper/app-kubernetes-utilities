@@ -1,6 +1,8 @@
 package com.innovaappstar.kubernetes.utility.forms;
 
 
+import com.innovaappstar.kubernetes.utility.business.ProcessorMediator;
+
 import javax.swing.*;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
@@ -22,7 +24,7 @@ import java.util.function.Function;
 
 public class YamlEditor extends JFrame {
 
-    public YamlEditor(String resourcePath, BiConsumer<String, Boolean> consumer) {
+    public YamlEditor(String resourcePath, ProcessorMediator processorMediator) {
         setTitle("Editor de YAML");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
@@ -63,7 +65,7 @@ public class YamlEditor extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Optional<File> fileCreated = saveFile(yamlTextArea.getText());
-                consumer.accept(fileCreated.map(File::getAbsolutePath).orElse(null), false);
+                processorMediator.save(fileCreated.map(File::getAbsolutePath).orElse(null));
                 dispose();
             }
         });
@@ -75,7 +77,7 @@ public class YamlEditor extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Optional<File> fileCreated = saveFile(yamlTextArea.getText());
-                consumer.accept(fileCreated.map(File::getAbsolutePath).orElse(null), true);
+                processorMediator.saveAndApply(fileCreated.map(File::getAbsolutePath).orElse(null));
                 dispose();
             }
         });
@@ -141,19 +143,19 @@ public class YamlEditor extends JFrame {
         return content.toString();
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new YamlEditor("", new BiConsumer<String, Boolean>() {
-                    @Override
-                    public void accept(String s, Boolean aBoolean) {
-
-                    }
-                });
-            }
-        });
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                new YamlEditor("", new BiConsumer<String, Boolean>() {
+//                    @Override
+//                    public void accept(String s, Boolean aBoolean) {
+//
+//                    }
+//                });
+//            }
+//        });
+//    }
 }
 
 

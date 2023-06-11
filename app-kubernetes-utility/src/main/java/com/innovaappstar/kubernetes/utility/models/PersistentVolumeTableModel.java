@@ -1,9 +1,11 @@
 package com.innovaappstar.kubernetes.utility.models;
 
+import com.github.javaparser.utils.Pair;
 import com.innovaappstar.kubernetes.utility.business.Executor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiPredicate;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -33,19 +35,15 @@ public class PersistentVolumeTableModel extends AbstractTableModel {
         filteredData.clear();
     }
 
-    public void filterData(String filterText, boolean filterByNamespace) {
+    // input entrada, valor cbo, columna del array
+    public void filterData(String filterText, String cboValueSelected,
+                           BiPredicate<Pair<String, String>, String[]> biPredicate) {
         filteredData.clear();
-
         for (String[] rowData : data) {
-            String namespace = rowData[0];
-            String name = rowData[1];
-            if(filterByNamespace && namespace.toLowerCase().contains(filterText.toLowerCase())){
-                filteredData.add(rowData);
-            }else if(!filterByNamespace && name.toLowerCase().contains(filterText.toLowerCase())){
+            if(biPredicate.test(new Pair<>(filterText, cboValueSelected), rowData)){
                 filteredData.add(rowData);
             }
         }
-
         fireTableDataChanged();
     }
 

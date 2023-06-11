@@ -1,0 +1,57 @@
+JFDML JFormDesigner: "8.1.0.0.283" Java: "17.0.5" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :::p, comp panel1:::::x, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp panel1:::::x, space :::p}}"
+		} ) {
+			name: "this"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, comp panel3:::p::p, space s:::p, comp panel2:::::x, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, par l:::p {comp panel3:::::x, comp panel2:::::x}, space :::x}}"
+			} ) {
+				name: "panel1"
+				"border": new javax.swing.border.TitledBorder( "Another Scripts" )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq {space :::p, par l {comp btnViewDefinitionPV:::p:288:p, comp btnViewDefinitionPVC::l:p:288:p, comp btnViewDefinitionService::l:p:288:p, comp btnViewDefinitionDeployment::l:p:288:p}, space ::8:x}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp btnViewDefinitionPV:::p::p, space u:::p, comp btnViewDefinitionPVC:::p::p, space :p:12:p, comp btnViewDefinitionDeployment:::p::p, space u:::p, comp btnViewDefinitionService:::p::p, space ::149:x}}"
+				} ) {
+					name: "panel2"
+					"border": new javax.swing.border.TitledBorder( "Definition Examples" )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnViewDefinitionDeployment"
+						"text": "View Deployment"
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnViewDefinitionService"
+						"text": "View Service"
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnViewDefinitionPVC"
+						"text": "View PVC"
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnViewDefinitionPV"
+						"text": "View PV"
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq l {space :::p, comp btnCreateGitlabRegistrySecret:::p:288:p, space ::16:x}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp btnCreateGitlabRegistrySecret:::p::p, space ::275:x}}"
+				} ) {
+					name: "panel3"
+					"border": new javax.swing.border.TitledBorder( "Scripts" )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnCreateGitlabRegistrySecret"
+						"text": "Create Secret For Gitlab Registry"
+					} )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 690, 370 )
+		} )
+	}
+}

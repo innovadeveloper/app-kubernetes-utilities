@@ -7,9 +7,13 @@ package com.innovaappstar.kubernetes.utility.forms;
 import com.innovaappstar.kubernetes.utility.business.Executor;
 import com.innovaappstar.kubernetes.utility.business.ProcessorMediator;
 import com.innovaappstar.kubernetes.utility.business.ViewForm;
-import com.innovaappstar.kubernetes.utility.business.impl.JsonUtils;
 import com.innovaappstar.kubernetes.utility.models.FormProperty;
 import com.innovaappstar.kubernetes.utility.models.PersistentVolumeTableModel;
+import com.innovaappstar.kubernetes.utility.utils.FormUtils;
+import com.innovaappstar.kubernetes.utility.utils.JsonUtils;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import javax.swing.*;
 import javax.swing.GroupLayout;
@@ -51,8 +55,7 @@ public class ViewerForm extends JPanel implements ViewForm {
         // Generated using JFormDesigner Educational license - kane baltazar alanoca
         panel1 = new JPanel();
         etFilterInput = new JTextField();
-        rbFilterName = new JRadioButton();
-        rbFilterNamespace = new JRadioButton();
+        cbFilter = new JComboBox();
         panel2 = new JPanel();
         tvDescription = new JLabel();
         btnOpenEditor = new JButton();
@@ -65,12 +68,6 @@ public class ViewerForm extends JPanel implements ViewForm {
         {
             panel1.setBorder(new TitledBorder("Search"));
 
-            //---- rbFilterName ----
-            rbFilterName.setText("name");
-
-            //---- rbFilterNamespace ----
-            rbFilterNamespace.setText("namespace");
-
             GroupLayout panel1Layout = new GroupLayout(panel1);
             panel1.setLayout(panel1Layout);
             panel1Layout.setHorizontalGroup(
@@ -79,11 +76,7 @@ public class ViewerForm extends JPanel implements ViewForm {
                         .addContainerGap()
                         .addGroup(panel1Layout.createParallelGroup()
                             .addComponent(etFilterInput, GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
-                            .addGroup(panel1Layout.createSequentialGroup()
-                                .addComponent(rbFilterName, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(rbFilterNamespace, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 264, Short.MAX_VALUE)))
+                            .addComponent(cbFilter, GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE))
                         .addContainerGap())
             );
             panel1Layout.setVerticalGroup(
@@ -92,10 +85,8 @@ public class ViewerForm extends JPanel implements ViewForm {
                         .addContainerGap()
                         .addComponent(etFilterInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(panel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(rbFilterNamespace)
-                            .addComponent(rbFilterName))
-                        .addContainerGap(26, Short.MAX_VALUE))
+                        .addComponent(cbFilter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(16, Short.MAX_VALUE))
             );
         }
 
@@ -181,8 +172,7 @@ public class ViewerForm extends JPanel implements ViewForm {
     // Generated using JFormDesigner Educational license - kane baltazar alanoca
     private JPanel panel1;
     private JTextField etFilterInput;
-    private JRadioButton rbFilterName;
-    private JRadioButton rbFilterNamespace;
+    private JComboBox cbFilter;
     private JPanel panel2;
     private JLabel tvDescription;
     private JButton btnOpenEditor;
@@ -192,20 +182,19 @@ public class ViewerForm extends JPanel implements ViewForm {
 
     @Override
     public void onStart() {
-        ButtonGroup buttonGroup1 = new ButtonGroup();
-        buttonGroup1.add(rbFilterName);
-        buttonGroup1.add(rbFilterNamespace);
-        rbFilterName.setSelected(true);
-
         tbItems.setModel(persistentVolumeTableModel);
         tvDescription.setText(this.formProperty.getFormDescription());
-        btnOpenEditor.addActionListener((ev) -> {
-            this.processorMediator.openEditor(this.formProperty.getResourcePath());
-        });
+        btnOpenEditor.addActionListener((ev) -> this.processorMediator.openEditor(this.formProperty.getResourcePath()));
+
+        DefaultComboBoxModel<String> cbFilterModel = new DefaultComboBoxModel<>();
+        cbFilterModel.addAll(Arrays.stream(executor.getPathItemList()).collect(Collectors.toList()));
+        cbFilter.setModel(cbFilterModel);
+        cbFilter.setSelectedIndex(0);
+
         persistentVolumeTableModel.clear();
         executor.process().forEach((item) -> {
             persistentVolumeTableModel.addRow(item);
-            onApplyFilter();
+//            onApplyFilter();
         });
 
         for (int i = 0; i < executor.getPathItemList().length; i++) {
@@ -214,6 +203,7 @@ public class ViewerForm extends JPanel implements ViewForm {
             tbItems.getColumnModel().getColumn(i).setHeaderValue(pathItem);
         }
         tbItems.repaint();
+
 
         etFilterInput.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -237,7 +227,8 @@ public class ViewerForm extends JPanel implements ViewForm {
     @Override
     public void onApplyFilter() {
         String filterText = etFilterInput.getText();
-        persistentVolumeTableModel.filterData(filterText, rbFilterName.isSelected());
+        String cbFilterText = (String) cbFilter.getSelectedItem();
+        persistentVolumeTableModel.filterData(filterText, cbFilterText, executor.onFilterByColumnAndValue());
     }
 
 
