@@ -1,12 +1,15 @@
 package com.innovaappstar.kubernetes.utility.utils;
 
+import com.innovaappstar.kubernetes.utility.forms.ConfigurationForm;
 import com.innovaappstar.kubernetes.utility.forms.FileDefinitionGeneratorForm;
 
 import java.awt.Component;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.function.Consumer;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -39,5 +42,15 @@ public class FormUtils {
                 });
             }
         }).start();
+    }
+
+    public static void chooseFile(Component component, Consumer<String> consumer){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int option = fileChooser.showOpenDialog(component);
+        if (option == JFileChooser.APPROVE_OPTION) {
+            String selectedFilePath = fileChooser.getSelectedFile().getAbsolutePath();
+            consumer.accept(selectedFilePath);
+        }
     }
 }

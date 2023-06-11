@@ -148,4 +148,21 @@ public class JsonUtils {
         }
         return input.substring(lastDotIndex + 1);
     }
+
+    public static String[] mergeArrays(String[]... arrays) {
+        int totalLength = 0;
+        for (String[] array : arrays) {
+            totalLength += array.length;
+        }
+
+        String[] mergedArray = new String[totalLength];
+        int currentIndex = 0;
+
+        for (String[] array : arrays) {
+            System.arraycopy(array, 0, mergedArray, currentIndex, array.length);
+            currentIndex += array.length;
+        }
+
+        return mergedArray;
+    }
 }

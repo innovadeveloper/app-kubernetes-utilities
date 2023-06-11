@@ -1,0 +1,56 @@
+JFDML JFormDesigner: "8.1.0.0.283" Java: "17.0.5" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :::p, comp panel1:::p::p, space :::x}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp panel1:::::x, space :::p}}"
+		} ) {
+			name: "this"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, par l {comp etPrivateKey:::::x, seq t {space :0:0:x, comp btnContinue:::p:142:p}, seq {par l {comp btnChoosePrivateKey::l:p:161:p, comp etCertificate::l:p:474:p, comp btnChooseCertificate::l:p:161:p, comp etHostname::l:p:474:p, comp label1::l:p:161:p, seq l {comp btnTestConnection:::p:172:p, space u:::p, comp btnSaveConfiguration:::p:161:p}}, space :0:0:x}}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :p:15:p, comp etPrivateKey:::p::p, space s:::p, comp btnChoosePrivateKey:::p::p, space :p:13:p, comp etCertificate:::p::p, space u:::p, comp btnChooseCertificate:::p::p, space u:::p, comp label1:::p::p, space :p:18:p, comp etHostname:::p::p, space :p:26:p, par b {comp btnTestConnection::b:p::p, comp btnSaveConfiguration::b:p::p}, space ::34:x, comp btnContinue:::p::p}}"
+			} ) {
+				name: "panel1"
+				"border": new javax.swing.border.TitledBorder( "Configuration" )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "etPrivateKey"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnChoosePrivateKey"
+					"text": "Choose Private Key"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnChooseCertificate"
+					"text": "Choose Certificate"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "etCertificate"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "etHostname"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnSaveConfiguration"
+					"text": "Save"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label1"
+					"text": "Hostname : "
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnTestConnection"
+					"text": "Save and TestConnection"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnContinue"
+					"text": "Continue"
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 510, 410 )
+		} )
+	}
+}

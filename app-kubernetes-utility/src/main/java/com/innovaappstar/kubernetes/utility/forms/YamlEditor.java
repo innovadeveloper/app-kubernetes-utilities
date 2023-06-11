@@ -27,7 +27,7 @@ public class YamlEditor extends JFrame {
     public YamlEditor(String resourcePath, ProcessorMediator processorMediator) {
         setTitle("Editor de YAML");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(900, 800);
         setLocationRelativeTo(null);
 
         RSyntaxTextArea yamlTextArea = new RSyntaxTextArea();

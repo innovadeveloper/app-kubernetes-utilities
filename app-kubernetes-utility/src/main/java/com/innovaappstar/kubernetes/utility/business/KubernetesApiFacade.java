@@ -1,5 +1,8 @@
 package com.innovaappstar.kubernetes.utility.business;
 
+import com.innovaappstar.kubernetes.utility.models.PropertyStorage;
+import com.innovaappstar.kubernetes.utility.utils.PropertiesStorageUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,16 +23,30 @@ public class KubernetesApiFacade {
     private static Config config;
 
     private static Config getConfigClient(){
-        String url = "https://192.168.64.3:16443";
+//        String url = "https://192.168.64.3:16443";
+        PropertyStorage propertyStorage = PropertiesStorageUtils.readProperties();
         if(config == null){
             config = new ConfigBuilder()
-                    .withMasterUrl(url)
+                    .withMasterUrl(propertyStorage.getHostname())
                     .withTrustCerts(true)  // Configurar si se debe confiar en los certificados del servidor
-                    .withClientCertFile("/Users/kennybaltazaralanoca/Files/certificates/baltazar.crt")
-                    .withClientKeyFile("/Users/kennybaltazaralanoca/Files/certificates/baltazar.key")
+//                    .withClientCertFile("/Users/kennybaltazaralanoca/Files/certificates/baltazar.crt")
+//                    .withClientKeyFile("/Users/kennybaltazaralanoca/Files/certificates/baltazar.key")
+                    .withClientCertFile(propertyStorage.getCertificatePath())
+                    .withClientKeyFile(propertyStorage.getPrivateKeyPath())
                     .build();
         }
         return config;
+    }
+
+    public boolean testConnection(){
+        config = null;
+        try {
+            getPods();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public PodList getPods(){
@@ -66,20 +83,4 @@ public class KubernetesApiFacade {
         KubernetesClient client = new DefaultKubernetesClient(KubernetesApiFacade.getConfigClient());
         return client.rbac().clusterRoleBindings().list();
     }
-
-
-
-//
-//    public List<ArrayList<String>> getKubernetesElements(FormPropertyEnum formPropertyEnum){
-//        return new ArrayList<>();
-////
-////        if(formPropertyEnum == FormPropertyEnum.PV){
-//////            Object data = new KubernetesController.Builder().build().listAllPV();
-////            return new KubernetesController.Builder().build().listAllPV();
-////        }else if(formPropertyEnum == FormPropertyEnum.PVC){
-////            return new KubernetesController.Builder().build().listAllPVC();
-////        }
-////        throw new UnsupportedOperationException("method unsupported");
-//    }
-
 }

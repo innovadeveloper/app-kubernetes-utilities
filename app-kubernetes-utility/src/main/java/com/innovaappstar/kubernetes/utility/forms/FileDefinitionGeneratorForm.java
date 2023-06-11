@@ -44,12 +44,12 @@ import static groovy.console.ui.text.FindReplaceUtility.dispose;
  */
 public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMediator {
 
-    public FileDefinitionGeneratorForm(JFrame frame) {
+    public FileDefinitionGeneratorForm() {
         initComponents();
         tbPanelForm.add("PV" ,
                 new ViewerForm(this, FormProperty.builder()
                         .resourcePath(FileResourcesEnum.PV_DEFINITION.getPath())
-                        .formDescription("some description of PV")
+                        .formDescription("Persistent volumes")
                         .fileResourceEnum(FileResourcesEnum.PV_DEFINITION)
                         .build(), new PersistentVolumeExecutor())
         );
@@ -57,7 +57,7 @@ public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMedi
         tbPanelForm.add("PVC" ,
                 new ViewerForm(this, FormProperty.builder()
                         .resourcePath(FileResourcesEnum.PVC_DEFINITION.getPath())
-                        .formDescription("some description of PCX")
+                        .formDescription("Persistent volumes claim")
                         .fileResourceEnum(FileResourcesEnum.PVC_DEFINITION)
                         .build(), new PersistentVolumeClaimExecutor())
         );
@@ -65,7 +65,7 @@ public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMedi
         tbPanelForm.add("PODS" ,
                 new ViewerForm(this, FormProperty.builder()
                         .resourcePath(FileResourcesEnum.POD_DEFINITION.getPath())
-                        .formDescription("some description pods")
+                        .formDescription("PODs")
                         .fileResourceEnum(FileResourcesEnum.POD_DEFINITION)
                         .build(), new PodsExecutor())
         );
@@ -73,7 +73,7 @@ public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMedi
         tbPanelForm.add("DEPLOYMENTS" ,
                 new ViewerForm(this, FormProperty.builder()
                         .resourcePath(FileResourcesEnum.DEPLOYMENT_DEFINITION.getPath())
-                        .formDescription("some description deployments")
+                        .formDescription("Deployments")
                         .fileResourceEnum(FileResourcesEnum.DEPLOYMENT_DEFINITION)
                         .build(), new DeploymentsExecutor())
         );
@@ -81,7 +81,7 @@ public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMedi
         tbPanelForm.add("CLUSTER ROLE" ,
                 new ViewerForm(this, FormProperty.builder()
                         .resourcePath(FileResourcesEnum.CLUSTER_ROLE_DEFINITION.getPath())
-                        .formDescription("some description deployments")
+                        .formDescription("Cluster roles")
                         .fileResourceEnum(FileResourcesEnum.CLUSTER_ROLE_DEFINITION)
                         .build(), new ClusterRoleExecutor())
         );
@@ -90,7 +90,7 @@ public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMedi
         tbPanelForm.add("CLUSTER ROLE BINDING" ,
                 new ViewerForm(this, FormProperty.builder()
                         .resourcePath(FileResourcesEnum.CLUSTER_ROLE_BINDING_DEFINITION.getPath())
-                        .formDescription("some description deployments")
+                        .formDescription("Cluster role bindings")
                         .fileResourceEnum(FileResourcesEnum.CLUSTER_ROLE_BINDING_DEFINITION)
                         .build(), new ClusterRoleBindingExecutor())
         );
@@ -98,7 +98,7 @@ public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMedi
         tbPanelForm.add("SECRETS" ,
                 new ViewerForm(this, FormProperty.builder()
                         .resourcePath(FileResourcesEnum.SECRETS_DEFINITION.getPath())
-                        .formDescription("some description deployments")
+                        .formDescription("Secrets")
                         .fileResourceEnum(FileResourcesEnum.SECRETS_DEFINITION)
                         .build(), new SecretsExecutor())
         );
@@ -141,16 +141,11 @@ public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMedi
 
     public static void main(String args[]){
         FlatMacDarkLaf.setup();
-
-//        test();
-
         JFrame frame = new JFrame("File Definition Generator Form v1");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(new FileDefinitionGeneratorForm(frame));
+        frame.setContentPane(new FileDefinitionGeneratorForm());
         frame.pack();
         frame.setVisible(true);
-//        FormUtils.addCloseDialogBeforeFinish(frame);
-
     }
 
 //    private static void test(){
