@@ -9,23 +9,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class PersistentVolumeClaimExecutor implements Executor {
+public class PersistentVolumeClaimExecutor extends BaseExecutor implements Executor {
     @Override
     public List<String[]> process() {
-        Object data = new KubernetesApiFacade().getPersistentVolumeClaimList();
+//        Object data = new KubernetesApiFacade().getPersistentVolumeClaimList();
         JsonNode jsonNode = JsonUtils.convertToJsonNode(new KubernetesApiFacade().getPersistentVolumeClaimList());
-        List<List<String>> itemList = Arrays.stream(getPathItemList()).map((pathItem) -> JsonUtils.getNodeValues(jsonNode, pathItem)).collect(Collectors.toList());
-        return JsonUtils.mergeLists(itemList);
+        return super.toConvertToListString(jsonNode);
     }
 
-    @Override
-    public String[] getPathItemList() {
-        return new String[]{
-                "items.kind",
-                "items.metadata.name",
-                "items.metadata.namespace",
-                "items.metadata.uid",
-                "items.metadata.creationTimestamp"
-        };
-    }
 }

@@ -15,23 +15,16 @@ import java.util.stream.Collectors;
 import io.fabric8.kubernetes.api.model.apps.DeploymentList;
 
 
-public class DeploymentsExecutor implements Executor {
+public class DeploymentsExecutor extends BaseExecutor implements Executor {
     @Override
     public List<String[]> process() {
         JsonNode jsonNode = JsonUtils.convertToJsonNode(new KubernetesApiFacade().getDeployments());
-        List<List<String>> itemList = Arrays.stream(getPathItemList()).map((pathItem) -> JsonUtils.getNodeValues(jsonNode, pathItem)).collect(Collectors.toList());
-        return JsonUtils.mergeLists(itemList);
+        return super.toConvertToListString(jsonNode);
     }
 
-    @Override
-    public String[] getPathItemList(){
-        return new String[]{
-            "items.kind",
-            "items.metadata.name",
-            "items.metadata.namespace",
-            "items.metadata.uid",
-            "items.metadata.creationTimestamp"
-        };
-    }
-
+    // todo : CONSTRUIR CONSTANTE DE NODE_PATH (LISTO)
+    // todo : Construir COMBOBOX QUE LISTE LOS TIPOS
+    // TODO : REFACTORIZAR Y MOVER EL UTILS A UN PACKAGE UTILS
+    // TODO : IMPLEMENTAR EVENTOS DE OPEN EDITOR
+    // TODO : MODIFICAR LA UI PARA Q NO SALGA MODO EVALUACION  (OMITOR)
 }

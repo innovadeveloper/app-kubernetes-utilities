@@ -5,16 +5,16 @@ new FormModel {
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 			"$horizontalGroup": "par l {seq t {comp tbPanelForm::::939:x, space :::p}}"
-			"$verticalGroup": "par l {seq t {comp tbPanelForm::::504:x, space :::p}}"
+			"$verticalGroup": "par l {seq t {comp tbPanelForm::::499:x, space :::p}}"
 		} ) {
 			name: "this"
-			"preferredSize": new java.awt.Dimension( 800, 465 )
+			"preferredSize": new java.awt.Dimension( 1300, 465 )
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "tbPanelForm"
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 945, 510 )
+			"size": new java.awt.Dimension( 945, 505 )
 		} )
 	}
 }

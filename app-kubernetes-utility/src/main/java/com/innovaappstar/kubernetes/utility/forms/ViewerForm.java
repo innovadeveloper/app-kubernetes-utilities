@@ -5,15 +5,11 @@
 package com.innovaappstar.kubernetes.utility.forms;
 
 import com.innovaappstar.kubernetes.utility.business.Executor;
-import com.innovaappstar.kubernetes.utility.business.KubernetesApiFacade;
 import com.innovaappstar.kubernetes.utility.business.ProcessorMediator;
 import com.innovaappstar.kubernetes.utility.business.ViewForm;
 import com.innovaappstar.kubernetes.utility.business.impl.JsonUtils;
-import com.innovaappstar.kubernetes.utility.constants.FormPropertyEnum;
 import com.innovaappstar.kubernetes.utility.models.FormProperty;
 import com.innovaappstar.kubernetes.utility.models.PersistentVolumeTableModel;
-
-import java.util.Arrays;
 
 import javax.swing.*;
 import javax.swing.GroupLayout;
@@ -22,7 +18,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.*;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.Singular;
@@ -83,12 +78,12 @@ public class ViewerForm extends JPanel implements ViewForm {
                     .addGroup(panel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(panel1Layout.createParallelGroup()
-                            .addComponent(etFilterInput, GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+                            .addComponent(etFilterInput, GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
                             .addGroup(panel1Layout.createSequentialGroup()
                                 .addComponent(rbFilterName, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(rbFilterNamespace, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 54, Short.MAX_VALUE)))
+                                .addGap(0, 264, Short.MAX_VALUE)))
                         .addContainerGap())
             );
             panel1Layout.setVerticalGroup(
@@ -161,7 +156,7 @@ public class ViewerForm extends JPanel implements ViewForm {
                 .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                        .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
+                        .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 998, Short.MAX_VALUE)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(panel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)

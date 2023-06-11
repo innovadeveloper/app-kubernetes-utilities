@@ -4,24 +4,22 @@
 
 package com.innovaappstar.kubernetes.utility.forms;
 
-import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import com.innovaappstar.groovy.utility.business.kubectl.KubernetesController;
-import com.innovaappstar.kubernetes.utility.business.KubernetesApiFacade;
 import com.innovaappstar.kubernetes.utility.business.ProcessorMediator;
+import com.innovaappstar.kubernetes.utility.business.impl.ClusterRoleBindingExecutor;
+import com.innovaappstar.kubernetes.utility.business.impl.ClusterRoleExecutor;
 import com.innovaappstar.kubernetes.utility.business.impl.DeploymentsExecutor;
 import com.innovaappstar.kubernetes.utility.business.impl.PersistentVolumeClaimExecutor;
 import com.innovaappstar.kubernetes.utility.business.impl.PersistentVolumeExecutor;
 import com.innovaappstar.kubernetes.utility.business.impl.PodsExecutor;
+import com.innovaappstar.kubernetes.utility.business.impl.SecretsExecutor;
 import com.innovaappstar.kubernetes.utility.constants.FileResourcesEnum;
-import com.innovaappstar.kubernetes.utility.constants.FormPropertyEnum;
 import com.innovaappstar.kubernetes.utility.models.FormProperty;
 
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 
-import io.fabric8.kubernetes.api.model.AuthProviderConfig;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.PodList;
 import io.fabric8.kubernetes.client.Config;
@@ -40,7 +38,7 @@ public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMedi
                 new ViewerForm(this, FormProperty.builder()
                         .resourcePath(FileResourcesEnum.PV_DEFINITION.getPath())
                         .formDescription("some description of PV")
-                        .formPropertyEnum(FormPropertyEnum.PV)
+                        .fileResourceEnum(FileResourcesEnum.PV_DEFINITION)
                         .build(), new PersistentVolumeExecutor())
         );
 
@@ -48,7 +46,7 @@ public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMedi
                 new ViewerForm(this, FormProperty.builder()
                         .resourcePath(FileResourcesEnum.PVC_DEFINITION.getPath())
                         .formDescription("some description of PCX")
-                        .formPropertyEnum(FormPropertyEnum.PVC)
+                        .fileResourceEnum(FileResourcesEnum.PVC_DEFINITION)
                         .build(), new PersistentVolumeClaimExecutor())
         );
 //
@@ -56,18 +54,42 @@ public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMedi
                 new ViewerForm(this, FormProperty.builder()
                         .resourcePath(FileResourcesEnum.POD_DEFINITION.getPath())
                         .formDescription("some description pods")
-                        .formPropertyEnum(FormPropertyEnum.PV)
+                        .fileResourceEnum(FileResourcesEnum.POD_DEFINITION)
                         .build(), new PodsExecutor())
         );
 //
         tbPanelForm.add("DEPLOYMENTS" ,
                 new ViewerForm(this, FormProperty.builder()
-                        .resourcePath(FileResourcesEnum.POD_DEFINITION.getPath())
+                        .resourcePath(FileResourcesEnum.DEPLOYMENT_DEFINITION.getPath())
                         .formDescription("some description deployments")
-                        .formPropertyEnum(FormPropertyEnum.PV)
+                        .fileResourceEnum(FileResourcesEnum.DEPLOYMENT_DEFINITION)
                         .build(), new DeploymentsExecutor())
         );
+//
+        tbPanelForm.add("CLUSTER ROLE" ,
+                new ViewerForm(this, FormProperty.builder()
+                        .resourcePath(FileResourcesEnum.CLUSTER_ROLE_DEFINITION.getPath())
+                        .formDescription("some description deployments")
+                        .fileResourceEnum(FileResourcesEnum.CLUSTER_ROLE_DEFINITION)
+                        .build(), new ClusterRoleExecutor())
+        );
 
+//
+        tbPanelForm.add("CLUSTER ROLE BINDING" ,
+                new ViewerForm(this, FormProperty.builder()
+                        .resourcePath(FileResourcesEnum.CLUSTER_ROLE_BINDING_DEFINITION.getPath())
+                        .formDescription("some description deployments")
+                        .fileResourceEnum(FileResourcesEnum.CLUSTER_ROLE_BINDING_DEFINITION)
+                        .build(), new ClusterRoleBindingExecutor())
+        );
+//
+        tbPanelForm.add("SECRETS" ,
+                new ViewerForm(this, FormProperty.builder()
+                        .resourcePath(FileResourcesEnum.SECRETS_DEFINITION.getPath())
+                        .formDescription("some description deployments")
+                        .fileResourceEnum(FileResourcesEnum.SECRETS_DEFINITION)
+                        .build(), new SecretsExecutor())
+        );
 
     }
 
@@ -77,7 +99,7 @@ public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMedi
         tbPanelForm = new JTabbedPane();
 
         //======== this ========
-        setPreferredSize(new Dimension(800, 465));
+        setPreferredSize(new Dimension(1300, 465));
 
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
@@ -90,7 +112,7 @@ public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMedi
         layout.setVerticalGroup(
             layout.createParallelGroup()
                 .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addComponent(tbPanelForm, GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
+                    .addComponent(tbPanelForm, GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
                     .addContainerGap())
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
@@ -106,7 +128,7 @@ public class FileDefinitionGeneratorForm extends JPanel implements ProcessorMedi
 
 //        test();
 
-        JFrame frame = new JFrame("File Definition Generator Form");
+        JFrame frame = new JFrame("File Definition Generator Form v1");
         frame.setContentPane(new FileDefinitionGeneratorForm());
         frame.pack();
         frame.setVisible(true);

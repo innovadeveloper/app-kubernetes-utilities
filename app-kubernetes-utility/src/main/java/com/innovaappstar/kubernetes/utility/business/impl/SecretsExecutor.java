@@ -4,16 +4,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.innovaappstar.kubernetes.utility.business.Executor;
 import com.innovaappstar.kubernetes.utility.business.KubernetesApiFacade;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
-public class ClusterRoleBindingExecutor extends BaseExecutor implements Executor {
+public class SecretsExecutor extends BaseExecutor implements Executor {
     @Override
     public List<String[]> process() {
 //        Object data = new KubernetesApiFacade().getClusterRoleBindingList();
-        JsonNode jsonNode = JsonUtils.convertToJsonNode(new KubernetesApiFacade().getClusterRoleBindingList());
+        JsonNode jsonNode = JsonUtils.convertToJsonNode(new KubernetesApiFacade().getSecrets());
         return super.toConvertToListString(jsonNode);
     }
 }

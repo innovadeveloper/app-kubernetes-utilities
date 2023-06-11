@@ -4,12 +4,12 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq t {space :::p, par t {comp scrollPane1::::788:x, seq {comp panel1:::::x, space :::p, comp panel2:::p::p}}, space :::p}}"
+			"$horizontalGroup": "par l {seq t {space :::p, par t {comp scrollPane1::::998:x, seq {comp panel1:::::x, space :::p, comp panel2:::p::p}}, space :::p}}"
 			"$verticalGroup": "par l {seq l {space :::p, par l:::p {comp panel2:::::x, comp panel1:::::x}, space s:::p, comp scrollPane1::::311:x, space :::p}}"
 		} ) {
 			name: "this"
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq {space :::p, par l {comp etFilterInput::::393:x, seq {comp rbFilterName:::p:151:p, space u:::p, comp rbFilterNamespace:::p:176:p, space :0:54:x}}, space :::p}}"
+				"$horizontalGroup": "par l {seq {space :::p, par l {comp etFilterInput::::603:x, seq {comp rbFilterName:::p:151:p, space u:::p, comp rbFilterNamespace:::p:176:p, space :0:264:x}}, space :::p}}"
 				"$verticalGroup": "par l {seq l {space :::p, comp etFilterInput:::p::p, space s:::p, par b {comp rbFilterNamespace::b:p::p, comp rbFilterName::b:p::p}, space ::26:x}}"
 			} ) {
 				name: "panel1"
@@ -73,7 +73,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 800, 465 )
+			"size": new java.awt.Dimension( 1010, 465 )
 		} )
 	}
 }
