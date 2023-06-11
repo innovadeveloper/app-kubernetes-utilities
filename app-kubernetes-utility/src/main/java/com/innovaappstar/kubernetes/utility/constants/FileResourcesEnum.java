@@ -2,6 +2,7 @@ package com.innovaappstar.kubernetes.utility.constants;
 
 public enum FileResourcesEnum {
     PV_DEFINITION("kubernetes/pv_definition.yaml"),
+    POD_DEFINITION("kubernetes/not_found.yaml"),
     PVC_DEFINITION("kubernetes/pvc_definition.yaml"),
     DEPLOYMENT_DEFINITION("kubernetes/deployment_definition.yaml"),
     EMPTY_DEFINITION("kubernetes/empty.yaml");

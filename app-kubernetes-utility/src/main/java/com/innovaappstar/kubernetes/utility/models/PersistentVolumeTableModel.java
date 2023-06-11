@@ -1,5 +1,7 @@
 package com.innovaappstar.kubernetes.utility.models;
 
+import com.innovaappstar.kubernetes.utility.business.Executor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,10 +10,12 @@ import javax.swing.table.AbstractTableModel;
 public class PersistentVolumeTableModel extends AbstractTableModel {
     private List<String[]> data;
     private List<String[]> filteredData;
+    private Executor executor;
 
-    public PersistentVolumeTableModel() {
+    public PersistentVolumeTableModel(Executor executor) {
         data = new ArrayList<>();
         filteredData = new ArrayList<>();
+        this.executor = executor;
     }
 
     public void addRow(String[] rowData) {
@@ -52,7 +56,7 @@ public class PersistentVolumeTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 2;
+        return executor.getPathItemList().length;
     }
 
     @Override

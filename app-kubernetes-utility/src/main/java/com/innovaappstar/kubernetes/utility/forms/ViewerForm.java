@@ -4,12 +4,16 @@
 
 package com.innovaappstar.kubernetes.utility.forms;
 
+import com.innovaappstar.kubernetes.utility.business.Executor;
 import com.innovaappstar.kubernetes.utility.business.KubernetesApiFacade;
 import com.innovaappstar.kubernetes.utility.business.ProcessorMediator;
 import com.innovaappstar.kubernetes.utility.business.ViewForm;
+import com.innovaappstar.kubernetes.utility.business.impl.JsonUtils;
 import com.innovaappstar.kubernetes.utility.constants.FormPropertyEnum;
 import com.innovaappstar.kubernetes.utility.models.FormProperty;
 import com.innovaappstar.kubernetes.utility.models.PersistentVolumeTableModel;
+
+import java.util.Arrays;
 
 import javax.swing.*;
 import javax.swing.GroupLayout;
@@ -35,21 +39,21 @@ public class ViewerForm extends JPanel implements ViewForm {
     @Singular
     private FormProperty formProperty;
     @Singular
-    private KubernetesApiFacade kubernetesApiFacade;
     PersistentVolumeTableModel persistentVolumeTableModel;
+    Executor executor;
 
-    public ViewerForm(ProcessorMediator processorMediator, FormProperty formProperty, KubernetesApiFacade kubernetesApiFacade) {
+    public ViewerForm(ProcessorMediator processorMediator, FormProperty formProperty, Executor executor) {
         this.processorMediator = processorMediator;
         this.formProperty = formProperty;
-        this.kubernetesApiFacade = kubernetesApiFacade;
-        this.persistentVolumeTableModel = new PersistentVolumeTableModel();
+        this.persistentVolumeTableModel = new PersistentVolumeTableModel(executor);
+        this.executor = executor;
         initComponents();
         onStart();
     }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Kane Baltazar Alanoca
+        // Generated using JFormDesigner Educational license - kane baltazar alanoca
         panel1 = new JPanel();
         etFilterInput = new JTextField();
         rbFilterName = new JRadioButton();
@@ -61,12 +65,6 @@ public class ViewerForm extends JPanel implements ViewForm {
         tbItems = new JTable();
 
         //======== this ========
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder
-        ( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border. TitledBorder. CENTER, javax. swing. border
-        . TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt
-        . Color. red) , getBorder( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void
-        propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062ord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( )
-        ; }} );
 
         //======== panel1 ========
         {
@@ -185,7 +183,7 @@ public class ViewerForm extends JPanel implements ViewForm {
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Kane Baltazar Alanoca
+    // Generated using JFormDesigner Educational license - kane baltazar alanoca
     private JPanel panel1;
     private JTextField etFilterInput;
     private JRadioButton rbFilterName;
@@ -210,13 +208,16 @@ public class ViewerForm extends JPanel implements ViewForm {
             this.processorMediator.openEditor(this.formProperty.getResourcePath());
         });
         persistentVolumeTableModel.clear();
-        kubernetesApiFacade.getKubernetesElements(this.formProperty.getFormPropertyEnum()).forEach((item )->{
-            persistentVolumeTableModel.addRow(new String[]{item.get(0), item.get(1)});
+        executor.process().forEach((item) -> {
+            persistentVolumeTableModel.addRow(item);
             onApplyFilter();
         });
 
-        tbItems.getColumnModel().getColumn(0).setHeaderValue("name");
-        tbItems.getColumnModel().getColumn(1).setHeaderValue("namespace");
+        for (int i = 0; i < executor.getPathItemList().length; i++) {
+            String pathItem = executor.getPathItemList()[i];
+            pathItem = JsonUtils.getLastWordAfterLastDot(pathItem);
+            tbItems.getColumnModel().getColumn(i).setHeaderValue(pathItem);
+        }
         tbItems.repaint();
 
         etFilterInput.getDocument().addDocumentListener(new DocumentListener() {

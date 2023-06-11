@@ -90,7 +90,7 @@ public class FileDefinitionGeneratorFormBK extends JFrame {
 		JPanel panel_2 = new JPanel();
 		tabbedPane.addTab("PV & PVC", null, panel_2, null);
 		panel_2.setLayout(null);
-		persistentVolumeTableModel = new PersistentVolumeTableModel();
+//		persistentVolumeTableModel = new PersistentVolumeTableModel();
 		table = new JTable(persistentVolumeTableModel);
 
 		TableColumn column1 = table.getColumnModel().getColumn(0);
